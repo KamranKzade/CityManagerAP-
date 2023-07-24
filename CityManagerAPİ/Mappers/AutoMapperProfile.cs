@@ -11,10 +11,14 @@ public class AutoMapperProfile : Profile
 	public AutoMapperProfile()
 	{
 		CreateMap<City, CityForListDto>()
-			.ForMember(dest => dest.PhotoUrl, option =>
-			{
-				option.MapFrom(src => src.CityImage!.FirstOrDefault(c => c.IsMain)!.Url);
-			})
-			.ReverseMap();
+			   .ForMember(dest => dest.PhotoUrl, option =>
+			   {
+				   option.MapFrom(src => src.CityImages.FirstOrDefault(c => c.IsMain).Url);
+			   })
+			   .ReverseMap();
+
+		CreateMap<City, CityDto>().ReverseMap();
+		CreateMap<City, CityDetailDto>().ReverseMap();
+		CreateMap<CityImage, CityImageDto>().ReverseMap();
 	}
 }

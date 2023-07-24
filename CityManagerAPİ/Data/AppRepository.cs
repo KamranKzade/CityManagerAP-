@@ -25,7 +25,7 @@ namespace CityManagerAPİ.Data
 		public List<City> GetCities(int userId)
 		{
 			var cities = _context.Cities
-				.Include(c => c.CityImage)
+				.Include(c => c.CityImages)
 				.Where(c => c.UserId == userId)
 				.ToList();
 			return cities;
@@ -35,7 +35,7 @@ namespace CityManagerAPİ.Data
 		{
 			var city = _context
 				.Cities
-				.Include(c => c.CityImage)
+				.Include(c => c.CityImages)
 				.FirstOrDefault(c => c.Id == cityId);
 			return city;
 		}
