@@ -1,11 +1,11 @@
-﻿using CityManagerAPİ.Data;
+﻿using System.Text;
+using CityManagerAPİ.Data;
 using CityManagerAPİ.Dtos;
 using CityManagerAPİ.Models;
+using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -77,7 +77,6 @@ public class AuthController : ControllerBase
 
 		var tokenString = tokenHandler.WriteToken(token);
 		return Ok(tokenString);
-
-
 	}
+
 }

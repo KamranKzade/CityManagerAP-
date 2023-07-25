@@ -1,9 +1,11 @@
-﻿using CityManagerAPİ.Data;
-using CityManagerAPİ.Models;
-using CityManagerAPİ.Repository.Abstract;
-using CityManagerAPİ.Repository.Concrete;
+﻿using System.Text;
+using CityManagerAPİ.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using System.Text.Json.Serialization;
+using CityManagerAPİ.Repository.Concrete;
+using CityManagerAPİ.Repository.Abstract;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,10 +15,12 @@ builder.Services.AddControllers();
 
 
 // Loopu saxlamaq ucun istifade olunur.
-builder.Services.AddControllers().AddJsonOptions(opt =>
-{
-	opt.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
-});
+builder.Services.AddControllers()
+				.AddJsonOptions(opt =>
+				{
+					opt.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+				});
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -27,6 +31,20 @@ builder.Services.AddDbContext<DataContext>(opt =>
 {
 	opt.UseSqlServer(conn);
 });
+
+var word = builder.Configuration.GetSection("AppSettings:Token").Value;
+var key = Encoding.ASCII.GetBytes(word);
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+	.AddJwtBearer(options =>
+	{
+		options.TokenValidationParameters = new TokenValidationParameters
+		{
+			ValidateIssuerSigningKey = true,
+			IssuerSigningKey = new SymmetricSecurityKey(key),
+			ValidateIssuer = false,
+			ValidateAudience = false
+		};
+	});
 
 builder.Services.AddScoped<IAppRepository, AppRepository>();
 builder.Services.AddScoped<ICityRepository, CityRepository>();
@@ -46,6 +64,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

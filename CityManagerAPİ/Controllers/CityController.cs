@@ -3,9 +3,11 @@ using CityManagerAPİ.Data;
 using CityManagerAPİ.Dtos;
 using CityManagerAPİ.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CityManagerAPİ.Controllers;
 
+[Authorize]
 [Route("api/[controller]")]
 [ApiController]
 public class CityController : ControllerBase
