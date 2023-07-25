@@ -30,6 +30,7 @@ builder.Services.AddDbContext<DataContext>(opt =>
 
 builder.Services.AddScoped<IAppRepository, AppRepository>();
 builder.Services.AddScoped<ICityRepository, CityRepository>();
+builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ICityImageRepository, CityImageRepository>();
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
