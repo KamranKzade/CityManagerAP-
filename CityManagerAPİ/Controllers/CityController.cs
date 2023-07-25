@@ -5,7 +5,9 @@ using CityManagerAPİ.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 
+
 namespace CityManagerAPİ.Controllers;
+
 
 [Authorize]
 [Route("api/[controller]")]
